@@ -15,7 +15,7 @@ RUN rm -rf /app/graalvm-$GRAAL_VERSION/jre/bin/polyglot
 RUN rm -rf /app/graalvm-$GRAAL_VERSION/jre/languages
 RUN rm -rf /app/graalvm-$GRAAL_VERSION/jre/lib/polyglot
 
-FROM gcr.io/distroless/base
+FROM debian:stretch-slim
 ENV GRAAL_VERSION 1.0.0-rc1
 LABEL maintainer="c.schmitt@briefdomain.de"
 COPY --from=build-env /app/graalvm-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm-$GRAAL_VERSION
