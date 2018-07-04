@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 1.0.0-rc2
+ENV GRAAL_VERSION 1.0.0-rc3
 ENV GRAAL_PKG graalvm-ce-$GRAAL_VERSION-linux-amd64
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
