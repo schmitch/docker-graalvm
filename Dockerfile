@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 1.0.0-rc2
+ENV GRAAL_VERSION 1.0.0-rc3
 ENV GRAAL_PKG graalvm-ce-$GRAAL_VERSION-linux-amd64
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
@@ -17,7 +17,7 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 FROM gcr.io/distroless/base
 LABEL maintainer="c.schmitt@briefdomain.de"
-ENV GRAAL_VERSION 1.0.0-rc2
+ENV GRAAL_VERSION 1.0.0-rc3
 COPY --from=build-env /app/graalvm-ce-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm-$GRAAL_VERSION
 ENV JAVA_HOME /usr/lib/jvm/graalvm-$GRAAL_VERSION
 ENV PATH $PATH:/usr/lib/jvm/graalvm-$GRAAL_VERSION/bin
