@@ -15,10 +15,13 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/bin/polyglot
 RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/languages
 RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
-FROM gcr.io/distroless/base
+RUN mkdir -p /usr/lib/jvm && mv /app/graalvm-ce-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm
+
+FROM gcr.io/distroless/cc:debug
 LABEL maintainer="c.schmitt@briefdomain.de"
-ENV GRAAL_VERSION 1.0.0-rc3
-COPY --from=build-env /app/graalvm-ce-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm-$GRAAL_VERSION
-ENV JAVA_HOME /usr/lib/jvm/graalvm-$GRAAL_VERSION
-ENV PATH $PATH:/usr/lib/jvm/graalvm-$GRAAL_VERSION/bin
+LABEL version="1.0.0-rc3"
+COPY --from=build-env  /usr/lib/jvm/graalvm /usr/lib/jvm/graalvm
+ADD java.tar.gz /usr/bin
+ENV JAVA_HOME /usr/lib/jvm/graalvm
+ENV PATH $PATH:/usr/lib/jvm/graalvm/bin
 ENTRYPOINT [ "/usr/bin/java", "-jar" ]
