@@ -17,7 +17,7 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 RUN mkdir -p /usr/lib/jvm && mv /app/graalvm-ce-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm
 
-FROM gcr.io/distroless/cc:debug
+FROM gcr.io/distroless/cc
 LABEL maintainer="c.schmitt@briefdomain.de"
 LABEL version="1.0.0-rc3"
 COPY --from=build-env  /usr/lib/jvm/graalvm /usr/lib/jvm/graalvm
