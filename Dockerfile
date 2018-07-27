@@ -17,8 +17,12 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 FROM debian:stretch-slim
 ENV GRAAL_VERSION 1.0.0-rc3
+ENV TZ 'Europe/Berlin'
 
-RUN apt update -y && apt install -y locales && rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update -y && apt-get install -y locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    rm /etc/localtime && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
     sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
 ENV LANG de_DE.UTF-8
