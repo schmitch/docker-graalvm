@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 1.0.0-rc4
+ENV GRAAL_VERSION 1.0.0-rc5
 ENV GRAAL_PKG graalvm-ce-$GRAAL_VERSION-linux-amd64
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
@@ -7,6 +7,7 @@ RUN curl -L -o /app/$GRAAL_PKG.tar.gz https://github.com/oracle/graal/releases/d
 RUN tar xfvz $GRAAL_PKG.tar.gz
 
 COPY certs/*.cer /tmp/certs/
+COPY certs/*.crt /tmp/certs/
 
 RUN for name in $(ls /tmp/certs); do /app/graalvm-ce-$GRAAL_VERSION/jre/bin/keytool -importcert -v -keystore /app/graalvm-ce-$GRAAL_VERSION/jre/lib/security/cacerts -storepass changeit -file /tmp/certs/$name -noprompt -alias $name ; done && \
     rm -rf /tmp/certs
@@ -16,7 +17,7 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/languages
 RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 FROM debian:stretch-slim
-ENV GRAAL_VERSION 1.0.0-rc4
+ENV GRAAL_VERSION 1.0.0-rc5
 ENV TZ 'Europe/Berlin'
 
 RUN apt-get update -y && apt-get install -y locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
