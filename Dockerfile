@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 1.0.0-rc9
+ENV GRAAL_VERSION 1.0.0-rc12
 ENV GRAAL_PKG graalvm-ce-$GRAAL_VERSION-linux-amd64
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
@@ -17,7 +17,7 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/languages
 RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 FROM debian:stretch-slim
-ENV GRAAL_VERSION 1.0.0-rc9
+ENV GRAAL_VERSION 1.0.0-rc12
 ENV TZ 'Europe/Berlin'
 
 RUN apt-get update -y && apt-get install -y locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
