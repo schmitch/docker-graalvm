@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 19.0.0
+ENV GRAAL_VERSION 19.3.0
 ENV GRAAL_PKG graalvm-ce-linux-amd64-$GRAAL_VERSION
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
@@ -17,10 +17,10 @@ RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/languages
 RUN rm -rf /app/graalvm-ce-$GRAAL_VERSION/jre/lib/polyglot
 
 FROM debian:stretch-slim
-ENV GRAAL_VERSION 19.0.0
+ENV GRAAL_VERSION 19.3.0
 ENV TZ 'Europe/Berlin'
 
-RUN apt-get update -y && apt-get install -y locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update -y && apt-get install -y libfreetype6 locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
     rm /etc/localtime && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
