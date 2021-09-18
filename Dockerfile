@@ -9,12 +9,12 @@ RUN tar xfvz $GRAAL_PKG.tar.gz
 COPY certs/*.cer /tmp/certs/
 COPY certs/*.crt /tmp/certs/
 
-RUN for name in $(ls /tmp/certs); do /app/graalvm-ce-java11-$GRAAL_VERSION/jre/bin/keytool -importcert -v -keystore /app/graalvm-ce-java11-$GRAAL_VERSION/jre/lib/security/cacerts -storepass changeit -file /tmp/certs/$name -noprompt -alias $name ; done && \
+RUN for name in $(ls /tmp/certs); do /app/graalvm-ce-java11-$GRAAL_VERSION/bin/keytool -importcert -v -keystore /app/graalvm-ce-java11-$GRAAL_VERSION/lib/security/cacerts -storepass changeit -file /tmp/certs/$name -noprompt -alias $name ; done && \
     rm -rf /tmp/certs
 
-RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/jre/bin/polyglot
-RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/jre/languages
-RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/jre/lib/polyglot
+RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/bin/polyglot
+RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/languages
+RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/lib/polyglot
 
 FROM debian:bullseye-slim
 ENV GRAAL_VERSION 21.2.0
@@ -31,7 +31,7 @@ ENV LANGUAGE de_DE:de
 ENV LC_ALL de_DE.UTF-8
 
 LABEL maintainer="c.schmitt@briefdomain.de"
-COPY --from=build-env /app/graalvm-ce-java11-$GRAAL_VERSION/jre /usr/lib/jvm/graalvm-$GRAAL_VERSION
+COPY --from=build-env /app/graalvm-ce-java11-$GRAAL_VERSION /usr/lib/jvm/graalvm-$GRAAL_VERSION
 ENV JAVA_HOME /usr/lib/jvm/graalvm-$GRAAL_VERSION
 ENV PATH $PATH:/usr/lib/jvm/graalvm-$GRAAL_VERSION/bin
 RUN ln -s /usr/lib/jvm/graalvm-$GRAAL_VERSION/bin/java /usr/bin/java
