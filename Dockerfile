@@ -1,5 +1,5 @@
 FROM ubuntu AS build-env
-ENV GRAAL_VERSION 21.2.0
+ENV GRAAL_VERSION 22.1.0
 ENV GRAAL_PKG graalvm-ce-java11-linux-amd64-$GRAAL_VERSION
 WORKDIR /app
 RUN apt update -y && apt install -y curl tar
@@ -17,7 +17,7 @@ RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/languages
 RUN rm -rf /app/graalvm-ce-java11-$GRAAL_VERSION/lib/polyglot
 
 FROM debian:bullseye-slim
-ENV GRAAL_VERSION 21.2.0
+ENV GRAAL_VERSION 22.1.0
 ENV TZ 'Europe/Berlin'
 
 RUN apt-get update -y && apt-get install -y libfreetype6 locales tzdata && apt-get clean && rm -rf /var/lib/apt/lists/* && \
