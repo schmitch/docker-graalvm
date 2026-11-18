@@ -13,8 +13,12 @@ Debian 13 (trixie) with GraalVM Community for JDK 25, used as the base image for
 The image is published on Docker Hub as `schmitch/graalvm-debian`, tagged `<graal major.minor>-java<jdk>`:
 
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 -t schmitch/graalvm-debian:25.5-java25 --push .
+docker buildx build --platform linux/amd64,linux/arm64 --provenance=false --sbom=false \
+  --output type=image,name=schmitch/graalvm-debian:25.5-java25,push=true,oci-mediatypes=false .
 ```
+
+The flags keep it a Docker manifest list without attestations: the Jib version loki builds with (sbt-jib 1.0.0,
+jib-core 0.20) can't read an OCI image index.
 
 `registry.envisia.io` is only a proxy to Docker Hub, so the applications pull it as
 `registry.envisia.io/schmitch/graalvm-debian:25.5-java25`.
